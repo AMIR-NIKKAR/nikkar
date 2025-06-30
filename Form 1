@@ -1,0 +1,70 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.IO;
+
+
+namespace WindowsFormsApp1__پروژه_نهایی_
+{
+    public partial class loginForm1 : Form
+    {
+        public loginForm1()
+        {
+            InitializeComponent();
+        }
+
+        private void btnLogin_Click(object sender, EventArgs e)
+        {
+            if (radioAdmin.Checked)
+            {
+                string enteredPassword = txtPassword.Text;
+                if (CheckAdminPassword(enteredPassword))
+                {
+                    AdminForm admin = new AdminForm();
+                    admin.Show();
+                    this.Hide();
+                }
+                else
+                {
+                    MessageBox.Show("error");
+                }
+            }
+            else
+            {
+                StudentForm std = new StudentForm();
+                std.Show();
+                this.Hide();
+            }
+        }
+
+        private bool CheckAdminPassword(string enteredPassword)
+        {
+            
+
+            string path = @"C:\202\admin.txt";
+            if (File.Exists(path))
+            {
+                string savedPassword = File.ReadAllText(path); 
+                return enteredPassword == savedPassword;
+            }
+            return false;
+        }
+
+        private void AdminForm_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtPassword_TextChanged(object sender, EventArgs e)
+        {
+            txtPassword.PasswordChar = '*';
+
+        }
+    }
+}
